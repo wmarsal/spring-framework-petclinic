@@ -3,6 +3,7 @@ pipeline {
 
     tools {
         maven "maven 3.6"
+        sonar "SonarQube"
     }
 
     stages {
@@ -17,6 +18,14 @@ pipeline {
               // Run the maven build with checkstyle
               sh "mvn clean package checkstyle:checkstyle"
            }
+        }
+        stage('SonarQube Analysis') {
+           steps{
+               withSonarQubeEnv {
+                    // Run the maven build with sonar
+                    sh "clean package sonar:sonar -Dsonar.host_url=$SONAR_HOST_URL "
+                }
+            }
         }
     }
 }
