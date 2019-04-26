@@ -17,7 +17,6 @@ pipeline {
                 branch 'master'
             }
             parallel {
-                stages {
                    stage('Build') {
                     steps{
                         // Run the maven build
@@ -34,4 +33,4 @@ pipeline {
             }
         }
     }
-}
+
