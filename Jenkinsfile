@@ -2,32 +2,33 @@ pipeline {
     agent any
     tools {
         maven "maven 3.6"
-    }
-    options {
-        parallelsAlwaysFailFast()
+        sonar "SonarQube"
     }
     stages {
-        stage('Non-Parallel Stage') {
-            steps {
-                echo 'This stage will be executed first.'
-            }
+        stage('Build') {
+           steps{
+              // Run the maven build
+              sh "mvn clean package"
+           }
         }
-        stage('Parallel Stage') {
-            parallel {
-                   stage('Build') {
-                    steps{
-                        // Run the maven build
-                        sh "mvn clean package"
-                    }
+         stage('Checkstyle') {
+           steps{
+              // Run the maven build with checkstyle
+              sh "mvn clean package checkstyle:checkstyle"
+           }
+        }
+        stage('Sonarqube') {
+            environment {
+                scannerHome = tool 'SonarQubeScanner'
+            }
+            steps {
+                   withSonarQubeEnv('sonarqube') {
+                     sh "${scannerHome}/bin/sonar-scanner"
                    }
-                   stage('Checkstyle') {
-                    steps{
-                        // Run the maven build with checkstyle
-                        sh "mvn clean package checkstyle:checkstyle"
-                    }
+                   timeout(time: 10, unit: 'MINUTES') {
+                      waitForQualityGate abortPipeline: true
                    }
-                }
             }
         }
     }
-
+}
