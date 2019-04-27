@@ -2,7 +2,6 @@ pipeline {
     agent any
     tools {
         maven "maven 3.6"
-        sonar "SonarQube"
     }
     stages {
         stage('Build') {
