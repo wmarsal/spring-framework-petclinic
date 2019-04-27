@@ -41,5 +41,12 @@ pipeline {
                 mavenAssetList: [[classifier: '', extension: '', filePath: 'target/petclinic.war']], mavenCoordinate: [artifactId: 'spring-framework-petclinic', groupId: 'org.springframework.samples', packaging: 'war', version: NEXUS_ARTIFACT_VERSION]]]
             }
         }
+        stage('Build image') {
+            steps{
+            /* This   builds the actual image; synonymous to
+             * docker build on the command line */
+            app = docker.build("petclinic")
+            }
+        }
     }
 }
