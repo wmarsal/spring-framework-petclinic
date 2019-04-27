@@ -4,7 +4,7 @@ pipeline {
         maven "maven 3.6"
     }
      environment {
-        NEXUS_ARTIFACT_VERSION= $env.build_number
+        NEXUS_ARTIFACT_VERSION= ${env.BUILD_NUMBER}
     }
 
     options {
@@ -38,7 +38,7 @@ pipeline {
                 nexusPublisher nexusInstanceId: 'Nexus',
                 nexusRepositoryId: 'releases',
                 packages: [[$class: 'MavenPackage',
-                mavenAssetList: [[classifier: '', extension: '', filePath: 'target/petclinic.war']], mavenCoordinate: [artifactId: 'spring-framework-petclinic', groupId: 'org.springframework.samples', packaging: 'war', version: NEXUS_VERSION]]]
+                mavenAssetList: [[classifier: '', extension: '', filePath: 'target/petclinic.war']], mavenCoordinate: [artifactId: 'spring-framework-petclinic', groupId: 'org.springframework.samples', packaging: 'war', version: NEXUS_ARTIFACT_VERSION]]]
             }
         }
     }
