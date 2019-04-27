@@ -3,6 +3,10 @@ pipeline {
     tools {
         maven "maven 3.6"
     }
+     environment {
+        NEXUS_ARTIFACT_VERSION= $env.build_number
+    }
+
     options {
         parallelsAlwaysFailFast()
     }
@@ -34,7 +38,7 @@ pipeline {
                 nexusPublisher nexusInstanceId: 'Nexus',
                 nexusRepositoryId: 'releases',
                 packages: [[$class: 'MavenPackage',
-                mavenAssetList: [[classifier: '', extension: '', filePath: 'target/petclinic.war']], mavenCoordinate: [artifactId: 'spring-framework-petclinic', groupId: 'org.springframework.samples', packaging: 'war', version: '1.0']]]
+                mavenAssetList: [[classifier: '', extension: '', filePath: 'target/petclinic.war']], mavenCoordinate: [artifactId: 'spring-framework-petclinic', groupId: 'org.springframework.samples', packaging: 'war', version: NEXUS_VERSION]]]
             }
         }
     }
