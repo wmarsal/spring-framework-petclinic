@@ -54,8 +54,8 @@ pipeline {
                    def value = "docker ps --all --quiet --filter=name='petclinic-test'".execute()
                    if (value.text)
                    {
-                     def stop_container="docker stop ${value.text}".execute()
-                     def rm_container="docker rm ${value.text}".execute()
+                     def stop_container="docker stop petclinic-test".execute()
+                     def rm_container="docker rm petclinic-test".execute()
                    }
                 }
                 sh 'docker run -d --name petclinic-test -p 8090:8080 petclinic-project'
