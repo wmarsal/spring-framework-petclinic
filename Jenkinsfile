@@ -4,7 +4,7 @@ pipeline {
         maven "maven 3.6"
     }
      environment {
-        NEXUS_ARTIFACT_VERSION= ${env.BUILD_NUMBER}
+        NEXUS_ARTIFACT_VERSION= "${env.BUILD_NUMBER}"
     }
 
     options {
