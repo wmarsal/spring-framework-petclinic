@@ -34,7 +34,7 @@ pipeline {
                 nexusPublisher nexusInstanceId: 'Nexus',
                 nexusRepositoryId: 'releases',
                 packages: [[$class: 'MavenPackage',
-                mavenAssetList: [[classifier: '', extension: '', filePath: 'target/petclinic.war']], mavenCoordinate: [artifactId: 'spring-framework-petclinic', groupId: 'org.springframework.samples', packaging: 'war', version: ${env.build_number}]]]
+                mavenAssetList: [[classifier: '', extension: '', filePath: 'target/petclinic.war']], mavenCoordinate: [artifactId: 'spring-framework-petclinic', groupId: 'org.springframework.samples', packaging: 'war', version: '1.0']]]
             }
         }
     }
