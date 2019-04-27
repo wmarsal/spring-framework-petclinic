@@ -44,9 +44,25 @@ pipeline {
         stage('Build image') {
             steps{
                 script{
-                    def customImage = docker.build("petclinic")
+                    def customImage = docker.build("petclinic-project")
                 }
             }
         }
+        stage('Run Test image') {
+            steps{
+                script{
+                   def value = "docker ps --all --quiet --filter=name='petclinic-test'".execute()
+                   if (${value.text})
+                   {
+                     def stop_container="docker stop ${value.text}".execute()
+                     def rm_container="docker rm ${value.text}".execute()
+                   }
+                }
+                sh 'docker run -d --name petclinic-test -p 8090:8080 petclinic-project'
+            }
+        }
+
+
+
     }
 }
