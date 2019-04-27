@@ -52,8 +52,8 @@ pipeline {
             steps{
                 script{
                    def value = "docker ps --all --quiet --filter=name='petclinic-test'".execute()
-                   echo "value = ${value.text}"
-                   if (value.text)
+                   echo "value = $value"
+                   if ($value)
                    {
                      def stop_container="docker stop petclinic-test".execute()
                      def rm_container="docker rm petclinic-test".execute()
