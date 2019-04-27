@@ -29,12 +29,12 @@ pipeline {
                     }
             }
         }
-        stage('Publish') {
+        stage('Publish in Nexus') {
             steps {
                 nexusPublisher nexusInstanceId: 'Nexus',
                 nexusRepositoryId: 'releases',
                 packages: [[$class: 'MavenPackage',
-                mavenAssetList: [[classifier: '', extension: '', filePath: 'target/']], mavenCoordinate: [artifactId: 'spring-framework-petclinic', groupId: 'org.springframework.samples', packaging: 'war', version: ${env.build_number}]]]
+                mavenAssetList: [[classifier: '', extension: '', filePath: 'target/petclinic.war']], mavenCoordinate: [artifactId: 'spring-framework-petclinic', groupId: 'org.springframework.samples', packaging: 'war', version: ${env.build_number}]]]
             }
         }
     }
