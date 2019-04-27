@@ -19,7 +19,7 @@ pipeline {
         stage('Sonarqube') {
             steps {
                    withSonarQubeEnv('SonarQube') {
-                     sh "/sonar/bin/sonar-scanner  -Dsonar.projectKey=myproject -Dsonar.projectName=Myproject"
+                     sh "mvn  clean package sonar:sonar -Dsonar.host_url=$SONAR_HOST_URL "
                    }
                    timeout(time: 10, unit: 'MINUTES') {
                       waitForQualityGate abortPipeline: true
