@@ -43,9 +43,8 @@ pipeline {
         }
         stage('Build image') {
             steps{
-            /* This   builds the actual image; synonymous to
-             * docker build on the command line */
-            app = docker.build("petclinic")
+                def customImage = docker.build("petclinic")
+
             }
         }
     }
