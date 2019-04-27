@@ -4,9 +4,9 @@ pipeline {
         maven "maven 3.6"
     }
      environment {
-        // Prefix l'artifact avec le build number
         NEXUS_ARTIFACT_VERSION= "${env.BUILD_NUMBER}"
     }
+
     options {
         parallelsAlwaysFailFast()
     }
@@ -43,10 +43,26 @@ pipeline {
         }
         stage('Build image') {
             steps{
-            /* This   builds the actual image; synonymous to
-             * docker build on the command line */
-            app = docker.build("petclinic")
+                script{
+                    def customImage = docker.build("petclinic-project")
+                }
             }
         }
+        stage('Run Test image') {
+            steps{
+                script{
+                   def value = "docker ps --all --quiet --filter=name='petclinic-test'".execute()
+                   if (value.text)
+                   {
+                     def stop_container="docker stop ${value.text}".execute()
+                     def rm_container="docker rm ${value.text}".execute()
+                   }
+                }
+                sh 'docker run -d --name petclinic-test -p 8090:8080 petclinic-project'
+            }
+        }
+
+
+
     }
 }
