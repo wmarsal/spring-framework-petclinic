@@ -14,17 +14,16 @@ pipeline {
         }
         stage('Parallel Stage') {
             parallel {
-                   stage('Checkstyle') {
+                   stage('Run Test image') {
                         steps{
-                            // Run the maven build with checkstyle
-                            sh "mvn clean package checkstyle:checkstyle"
+                            sh "docker stop petclinic-test && docker rm petclinic-test"
+                            sh "docker run -d --name petclinic-test -p 8090:8080 petclinic-project"
                          }
                      }
-                    stage('Sonarqube') {
+                    stage('Run uat image') {
                         steps {
-                            withSonarQubeEnv('SonarQube') {
-                            sh "mvn  clean package sonar:sonar -Dsonar.host_url=$SONAR_HOST_URL "
-                            }
+                            sh "docker stop petclinic-uat && docker rm petclinic-uat"
+                            sh 'docker run -d --name petclinic-uat -p 8090:8080 petclinic-project'
                          }
                     }
             }
